@@ -1,0 +1,123 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB; // Import the DB facade
+
+class RecipesTableSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run()
+{
+    DB::table('recipes')->insertGetId([
+        [
+            'title' => 'Plant-Based Sweet & Sour Stir-fry chicken/tofu',
+            'description' => 'This sweet and sour chicken stir-fry recipe is a version of the Asian-style favorite that includes carrots, bell pepper, garlic, and pineapple. The requisite soy sauce and vinegar add the sour to the sweet!',
+            'created_by' => 1,
+            'image' => 'img/Plant-Based Sweet & Sour Stir-fry chicken-tofu.jpg',
+            'ingredients' => json_encode(['Vegetable oil', 'Chicken', 'Sugar', 'Soy Sauce']),
+            'steps' => json_encode([
+                "Instructions",
+                "Start by preparing the sauce:",
+                'Set aside ½ cup of pineapple juice from your can of pineapple, and reserve ⅔ cup of the pineapple chunks (if using). Set aside.',
+                'Combine the hot water, salt, sugar, and ketchup. Stir until the salt and sugar are dissolved, and then add the vinegar and pineapple juice (if using). If not using pineapple juice, replace with ½ cup water or chicken stock. Set aside.',
+                "Marinate the chicken:",
+                'Cut your chicken into uniform 1 inch chunks (for even cooking) and place into a bowl. Add the garlic and onion powders, sesame oil, white pepper, and salt. Mix until all pieces are uniformly coated, and let it sit for 5 minutes. Any excess water should be fully absorbed by the chicken. If not, mix the chicken again and let it sit for another 5 minutes.',
+                "Make the batter:",
+                'Mix together the all-purpose flour, cornstarch, baking powder, and baking soda in a bowl, and add 2/3 cup of ice water. Use a fork to mix until a batter is formed, and stir in 1 tablespoon of oil. Set aside.',
+                "Fry the chicken:",
+                'The amount of oil you need depends on the size of the pot you will use. Using a larger pot uses more oil, but allows you to cook the chicken in fewer batches. Using a smaller pot uses less oil, but you’ll have to fry more batches of chicken. We usually go for a smaller pot, so we have less leftover oil. Heat the oil in a small pot until it reaches 335°F/170°C.',
+                'Place 5 to 6 pieces of marinated chicken into the batter. Use a chopstick, fork, or your fingers to coat the chicken in the batter and place each piece slowly into the oil.',
+                'Use a slotted spoon to carefully turn the chicken so all sides are uniformly fried. Fry for about 2 minutes, or until the batter is a light golden brown and crispy. Remove with a slotted spoon and let any excess oil drain off before placing onto a rack or paper towel-lined plate.',
+                "Assemble in the Wok:",
+                'Heat 1 tablespoon canola oil in a wok over medium-high heat, and add the red onion and peppers. Stir-fry for 30 seconds.',
+                'Next, add the sweet and sour sauce you prepared earlier and bring to a boil. Reduce the heat so the sauce is simmering.',
+                'Combine the cornstarch and water to make a uniform slurry. While stirring the sweet and sour sauce, drizzle the slurry in gradually until the sauce is thick enough to coat a spoon (you may not need all of the slurry). Turn down the heat and give the sauce a quick taste––now is the time to add more salt, vinegar, or sugar if desired.',
+                'Add the pineapple chunks (if using) and stir until warmed through. Now is the time to refry the chicken to make them nice and crispy. Heat the oil up to 335°F/170°C and fry the chicken in two batches for about 45 seconds each time. Then add the chicken pieces to your sauce, and gently toss with your wok spatula until the chicken is coated. Serve immediately!'
+            ]),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]
+    ]);
+    // Insert substitutions for the recipe
+    DB::table('substitutions')->insert([
+        [
+            'recipe_id' => $recipeId,
+            'primary_ingredient' => 'Soy sauce',
+            'substitute' => 'Tamari',
+            'compatibility' => 2,
+            'criteria' => 'Flavor profile (rich, thick texture and nuanced salinity)',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ],
+        [
+            'recipe_id' => $recipeId,
+            'primary_ingredient' => 'Soy sauce',
+            'substitute' => 'Coconut Aminos',
+            'compatibility' => 3,
+            'criteria' => 'Healthier option (low in sodium), Dietary restriction (soy-free, gluten-free)',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ],
+        [
+            'recipe_id' => $recipeId,
+            'primary_ingredient' => 'Vegetable oil',
+            'substitute' => 'Sesame oil',
+            'compatibility' => 2,
+            'criteria' => 'Flavor profile (rich)',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ],
+        [
+            'recipe_id' => $recipeId,
+            'primary_ingredient' => 'Chicken',
+            'substitute' => 'Seitan',
+            'compatibility' => 3,
+            'criteria' => 'Different texture, Healthier option (richest in protein), Dietary restriction (vegan)',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ],
+        [
+            'recipe_id' => $recipeId,
+            'primary_ingredient' => 'Chicken',
+            'substitute' => 'Tofu',
+            'compatibility' => 2,
+            'criteria' => 'Dietary restriction (vegan)',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ],
+        [
+            'recipe_id' => $recipeId,
+            'primary_ingredient' => 'Sugar',
+            'substitute' => 'Honey',
+            'compatibility' => 2,
+            'criteria' => 'Flavor profile (natural sweetener)',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ],
+        [
+            'recipe_id' => $recipeId,
+            'primary_ingredient' => 'Sugar',
+            'substitute' => 'Maple syrup',
+            'compatibility' => 2,
+            'criteria' => 'Flavor profile (natural sweetener)',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ],
+        [
+            'recipe_id' => $recipeId,
+            'primary_ingredient' => 'Sugar',
+            'substitute' => 'Stevia',
+            'compatibility' => 3,
+            'criteria' => 'Dietary restriction (sugar-free)',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ],
+    ]);
+}
+
+}
