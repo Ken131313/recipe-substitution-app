@@ -4,8 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RecipeController;
 
-// Route to display the homepage with all recipes
+// Route to display the homepage 
 Route::get('/', [RecipeController::class, 'index'])->name('index');
+// About Us page
+Route::get('/about', [PageController::class, 'about'])->name('about');
 
 Route::get('/recipes/create', [RecipeController::class, 'create'])->name('recipes.create');
 Route::post('/recipes', [RecipeController::class, 'store'])->name('recipes.store');
