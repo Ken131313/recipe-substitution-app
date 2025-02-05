@@ -63,6 +63,7 @@
                     <div class="navbar-nav ms-auto py-0 pe-4">
                         <a href="{{ route('index') }}" class="nav-item nav-link active">Home</a>
                         <a href="{{ route('about') }}" class="nav-item nav-link">About Us</a>
+                        <a href="{{ route('recipes.list') }}" class="nav-item nav-link">View all recipes</a>
                         <a href="service.html" class="nav-item nav-link">Saved recipes</a>
                     </div>
                     <a href="{{ route('register') }}" class="btn btn-primary py-2 px-4">SIGN UP</a>

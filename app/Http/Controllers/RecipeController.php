@@ -93,4 +93,10 @@ class RecipeController extends Controller
             return back()->withErrors('Error: ' . $e->getMessage());
         }
     }
+
+    public function list()
+    {
+        $recipes = Recipe::all(); // Fetch all recipes from database
+        return view('recipes.list', compact('recipes'));
+    }
 }

@@ -8,6 +8,7 @@ use App\Http\Controllers\PageController;
 Route::get('/', [RecipeController::class, 'index'])->name('index');
 // About Us page
 Route::get('/about', [PageController::class, 'about'])->name('about');
+Route::get('/recipes', [RecipeController::class, 'list'])->name('recipes.list');
 
 Route::middleware('auth')->group(function () {
     Route::get('/recipes/create', [RecipeController::class, 'create'])->name('recipes.create');

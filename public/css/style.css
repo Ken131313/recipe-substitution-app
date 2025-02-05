@@ -490,6 +490,17 @@
     border-color: var(--primary);
 }
 
+/**for lsit.balde.php**/
+.card {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.card img {
+    height: 200px;
+    object-fit: cover;
+}
+
 
 /*** Footer ***/
 .footer .btn.btn-social {

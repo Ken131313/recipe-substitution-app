@@ -89,7 +89,7 @@ function addSubstitutionField() {
             </div>
             <div class="col-md-2">
                 <input type="number" class="form-control" name="substitutions[${subCount}][compatibility]" 
-                    placeholder="Compatibility (1-100)" min="1" max="100">
+                    placeholder="Compatibility (1-3)" min="1" max="3">
             </div>
             <div class="col-md-4">
                 <input type="text" class="form-control" name="substitutions[${subCount}][criteria]" 
