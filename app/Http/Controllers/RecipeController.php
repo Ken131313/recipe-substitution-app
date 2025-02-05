@@ -32,7 +32,8 @@ class RecipeController extends Controller
 
     public function store(Request $request)
     {
-        // Validate recipe data
+        abort_unless(auth()->check(), 403);
+        
         $validated = $request->validate([
             'title' => 'required|string|max:255|unique:recipes,title',
             'description' => 'nullable|string',
@@ -46,51 +47,50 @@ class RecipeController extends Controller
             'substitutions.*.criteria' => 'nullable|string',
         ]);
 
-        // Handle image upload
-        $imagePath = null;
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('recipe_images', 'public');
-        }
-
-        // Convert ingredients and steps to arrays
-        $ingredients = explode("\n", str_replace("\r", "", trim($request->ingredients)));
-        $steps = explode("\n", str_replace("\r", "", trim($request->steps)));
-
-        // Generate a unique slug
-        $slug = Str::slug($validated['title']);
-        $originalSlug = $slug;
-        $count = 1;
-        while (Recipe::where('slug', $slug)->exists()) {
-            $slug = "{$originalSlug}-{$count}";
-            $count++;
-        }
-
-        // Create recipe
-        $recipe = Recipe::create([
-            'title' => $validated['title'],
-            'slug' => $slug,
-            'description' => $validated['description'] ?? '',
-            'image' => $imagePath,
-            'ingredients' => json_encode($ingredients),
-            'steps' => json_encode($steps),
-            'created_by' => auth()->id() // Ensure user is logged in
-        ]);
-
-        // Create substitutions
-        if ($request->has('substitutions')) {
-            foreach ($request->substitutions as $sub) {
-                if (!empty($sub['primary']) && !empty($sub['substitute'])) {
-                    $recipe->substitutions()->create([
-                        'primary_ingredient' => $sub['primary'],
-                        'substitute' => $sub['substitute'],
-                        'compatibility' => $sub['compatibility'] ?? 1,
-                        'criteria' => $sub['criteria'] ?? ''
-                    ]);
-                }
+        try {
+            // Generate slug first
+            $slug = Str::slug($validated['title']);
+            $counter = 1;
+            while (Recipe::where('slug', $slug)->exists()) {
+                $slug = Str::slug($validated['title'] . '-' . $counter++);
             }
-        }
 
-        return redirect()->route('recipes.show', $recipe->slug)
-            ->with('success', 'Recipe uploaded successfully!');
+            // Create WITHOUT transaction
+            $recipe = Recipe::create([
+                'title' => $validated['title'],
+                'slug' => $slug,
+                'description' => $validated['description'] ?? '',
+                'image' => $request->hasFile('image') 
+                    ? $request->file('image')->store('recipe_images', 'public')
+                    : null,
+                'ingredients' => json_encode(
+                    array_filter(
+                        explode("\n", str_replace("\r", "", $request->ingredients))
+                    )
+                ),
+                'steps' => json_encode(
+                    array_filter(
+                        explode("\n", str_replace("\r", "", $request->steps))
+                    )
+                ),
+                'created_by' => auth()->id()
+            ]);
+
+            // Create substitutions separately
+            collect($request->substitutions ?? [])
+                ->filter(fn($sub) => !empty($sub['primary']) && !empty($sub['substitute']))
+                ->each(fn($sub) => $recipe->substitutions()->create([
+                    'primary_ingredient' => $sub['primary'],
+                    'substitute' => $sub['substitute'],
+                    'compatibility' => $sub['compatibility'] ?? 1,
+                    'criteria' => $sub['criteria'] ?? ''
+                ]));
+
+            return redirect()->route('recipes.show', $recipe->slug);
+
+        } catch (\Exception $e) {
+            logger()->error('Recipe Creation Failed:', ['error' => $e->getMessage()]);
+            return back()->withErrors('Error: ' . $e->getMessage());
+        }
     }
 }

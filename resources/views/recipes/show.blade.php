@@ -5,7 +5,7 @@
 <div class="container py-5">
     <div class="row">
         <div class="col-md-6">
-            <img src="{{ asset($recipe->image) }}" alt="{{ $recipe->title }}" class="img-fluid rounded">
+            <img src="{{ asset('storage/' . $recipe->image) }}" alt="{{ $recipe->title }}" class="img-fluid rounded">
         </div>
         <div class="col-md-6">
             <h1>{{ $recipe->title }}</h1>
@@ -14,7 +14,7 @@
             @if ($recipe->ingredients)
                 <h4>Ingredients</h4>
                 <ul>
-                    @foreach ($recipe->ingredients as $ingredient)
+                    @foreach (json_decode($recipe->ingredients, true) as $ingredient)
                         <li>{{ $ingredient }}</li>
                     @endforeach
                 </ul>
@@ -23,7 +23,7 @@
             @if ($recipe->steps)
                 <h4>Steps</h4>
                 <ol>
-                    @foreach ($recipe->steps as $step)
+                @foreach (json_decode($recipe->steps, true) as $step)
                         <li>{{ $step }}</li>
                     @endforeach
                 </ol>

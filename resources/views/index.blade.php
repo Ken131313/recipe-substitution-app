@@ -64,7 +64,6 @@
                         <a href="{{ route('index') }}" class="nav-item nav-link active">Home</a>
                         <a href="{{ route('about') }}" class="nav-item nav-link">About Us</a>
                         <a href="service.html" class="nav-item nav-link">Saved recipes</a>
-                        <a href="contact.html" class="nav-item nav-link">Contact Us</a>
                     </div>
                     <a href="{{ route('register') }}" class="btn btn-primary py-2 px-4">SIGN UP</a>
                     <a href="{{ route('login') }}" class="btn btn-primary py-2 px-4">LOG IN</a>
@@ -77,7 +76,16 @@
                         <div class="col-lg-6 text-center text-lg-start">
                             <h1 class="display-3 text-white animated slideInLeft">Create Your Own<br>Chinese Meals</h1>
                             <p class="text-white animated slideInLeft mb-4 pb-2">We are WOK Guide! Here to help user to cook chinese meals and get rid of boring meals plan. If you have an idea on chinese meal also, feel free to upload!</p>
-                            <a href="{{ route('recipes.create')}}" class="btn btn-primary py-sm-3 px-sm-5 me-3 animated slideInLeft">Upload recipe</a>
+                            @auth
+                                <a href="{{ route('recipes.create')}}" class="btn btn-primary py-sm-3 px-sm-5 me-3 animated slideInLeft">
+                                    Upload recipe
+                                </a>
+                            @endauth     
+                            @guest
+                                <a href="{{ route('login') }}" class="btn btn-secondary py-sm-3 px-sm-5 me-3 animated slideInLeft">
+                                    Log in to upload recipes
+                                </a>
+                            @endguest                   
                         </div>
                         <div class="col-lg-6 text-center text-lg-end overflow-hidden">
                             <img class="img-fluid bounce-animation" src="img/hero.png" alt="">
