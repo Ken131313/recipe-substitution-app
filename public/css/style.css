@@ -567,3 +567,23 @@
     border-right: none;
 }
 
+.substitution-btn {
+    border-radius: 20%; /* Make it round */
+    background-color: #fc8a08; /* Light grey background */
+    color: #333; /* Dark text */
+    border: 1px solid #fc8a08; /* Subtle border */
+    width: 150px; /* Adjust size */
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    font-size: 14px;
+    transition: all 0.3s ease-in-out;
+}
+
+.substitution-btn:hover {
+    background-color: black; /* Change background to black on hover */
+    color: white; /* Change text color to white */
+    border-color: black;
+}

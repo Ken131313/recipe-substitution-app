@@ -9,13 +9,13 @@ class Recipe extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'slug', 'description', 'image', 'ingredients', 'steps', 'created_by'];
+    protected $fillable = ['title', 'slug', 'description', 'image', 'ingredients', 'steps', 'collections', 'created_by'];
 
     protected $casts = [
         'ingredients' => 'array',
-        'steps' => 'array'
+        'steps' => 'array',
+        'collections' => 'array' // Cast collections to an array
     ];
-    
 
     public function substitutions()
     {

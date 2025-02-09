@@ -18,6 +18,7 @@ class RecipeController extends Controller
     public function show($slug)
     {
         $recipe = Recipe::where('slug', $slug)->firstOrFail();
+        $substitutions = $recipe->substitutions;
 
         return view('recipes.show', [
             'recipe' => $recipe,
@@ -27,8 +28,16 @@ class RecipeController extends Controller
 
     public function create()
     {
-        return view('recipes.create');
+        // Fetch distinct collections from the database (assuming collection is a column in recipes)
+        $collections = \DB::table('recipes')
+            ->select('collections')
+            ->whereNotNull('collections')
+            ->distinct()
+            ->pluck('collections');
+        
+        return view('recipes.create', compact('collections'));
     }
+
 
     public function store(Request $request)
     {
@@ -40,6 +49,7 @@ class RecipeController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'ingredients' => 'required|string',
             'steps' => 'required|string',
+            'collections' => 'nullable|array',
             'substitutions' => 'nullable|array',
             'substitutions.*.primary' => 'nullable|string',
             'substitutions.*.substitute' => 'nullable|string',
@@ -73,6 +83,7 @@ class RecipeController extends Controller
                         explode("\n", str_replace("\r", "", $request->steps))
                     )
                 ),
+                'collections' => $validated['collections'] ?? [], 
                 'created_by' => auth()->id()
             ]);
 
@@ -94,9 +105,22 @@ class RecipeController extends Controller
         }
     }
 
-    public function list()
+    public function list(Request $request)
     {
-        $recipes = Recipe::all(); // Fetch all recipes from database
+        $query = Recipe::query();
+
+        if ($request->has('collections')) {
+            $selectedCollections = is_array($request->collections) ? $request->collections : [$request->collections];
+
+            $query->where(function ($q) use ($selectedCollections) {
+                foreach ($selectedCollections as $collection) {
+                    $q->orWhereJsonContains('collections', $collection);
+                }
+            });
+        }
+
+        $recipes = $query->get();
         return view('recipes.list', compact('recipes'));
     }
+
 }

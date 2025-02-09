@@ -36,7 +36,7 @@
             <textarea class="form-control" name="steps" rows="5" 
                 placeholder="Enter each step on a new line" required></textarea>
         </div>
-
+        
         <!-- Substitutions -->
         <div class="mb-3">
             <h4>Ingredient Substitutions</h4>
@@ -67,6 +67,32 @@
             </button>
         </div>
 
+        <!--collection selection-->
+        <div class="mb-3">
+            <label class="form-label">Select its catergories:</label>
+            <div class="btn-group" role="group" aria-label="Collection selection">
+                <!--Vegan-->
+                <input type="checkbox" class="btn-check" id="collectionVegan" autocomplete="off" name="collections[]" value="Vegan">
+                <label class="btn btn-outline-primary" for="collectionVegan">Vegan </label>
+
+                <!--gluten free-->
+                <input type="checkbox" class="btn-check" id="collectionGlutenFree" autocomplete="off" name="collections[]" value="Gluten Free">
+                <label class="btn btn-outline-primary" for="collectionGlutenFree">Gluten Free </label>
+
+                <!--High in protein-->
+                <input type="checkbox" class="btn-check" id="collectionHignProtein" autocomplete="off" name="collections[]" value="High in Protein">
+                <label class="btn btn-outline-primary" for="collectionHignProtein">High in Protein </label>
+
+                <!--Meat-->
+                <input type="checkbox" class="btn-check" id="collectionMeat" autocomplete="off" name="collections[]" value="Meat">
+                <label class="btn btn-outline-primary" for="collectionMeat">Meat </label>
+
+                <!--Seafood-->
+                <input type="checkbox" class="btn-check" id="collectionSeafood" autocomplete="off" name="collections[]" value="Seafood">
+                <label class="btn btn-outline-primary" for="collectionSeafood">Seafood </label>
+            </div>
+        </div>
+                
         <button type="submit" class="btn btn-primary">Submit Recipe</button>
     </form>
 </div>

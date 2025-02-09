@@ -138,43 +138,7 @@
         <!-- Service End -->
 
 
-        <!-- About Start -->
-
-            <div class="container">
-                <div class="row g-5 align-items-center">
-                            <h5 style="text-align: center;">_________________Find Your Favourite Recipes_________________</h5>
-                            <div class="dropdown">
-                                <!-- drop down menu-->
-                                <div class="dropdown">
-                                    <button class="btn dropdown-toggle" type="button" id="dropdownCategory" data-bs-toggle="dropdown" aria-expanded="false">
-                                        By Category
-                                    </button> 
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownCategory">
-                                        <li><a class="dropdown-item" href="#">Beef</a></li>
-                                        <li><a class="dropdown-item" href="#">Chicken</a></li>
-                                        <li><a class="dropdown-item" href="#">Pork</a></li>
-                                        <li><a class="dropdown-item" href="#">Fish & Seafood</a></li>
-                                        <li><a class="dropdown-item" href="#">Vegetables</a></li>
-                                    </ul>
-                                </div>
-                         
-
-                                <div class="dropdown">
-                                    <button class="btn dropdown-toggle" type="button" id="dropdownCollection" data-bs-toggle="dropdown" aria-expanded="false">
-                                        By Collection
-                                    </button>   
-                                    <ul class="dropdown-menu" aria-labelledby="dropdownCollection">
-                                        <li><a class="dropdown-item" href="#">Vegan/vegetarian</a></li>
-                                        <li><a class="dropdown-item" href="#">Gluten Free</a></li>
-                                        <li><a class="dropdown-item" href="#">High in Protein</a></li>
-                                        <li><a class="dropdown-item" href="#">Low in Fat</a></li>
-                                    </ul>
-                                </div>
-                            
-                    
-                </div>
-            </div>
-        <!-- About End -->
+        
 
 <br>
         <!-- Menu Start -->
