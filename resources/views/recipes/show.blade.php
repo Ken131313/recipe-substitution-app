@@ -69,6 +69,36 @@
 
             
         </div>
+        <div class="mt-5">
+            <h4>Comments</h4>
+            @if($recipe->comments->isNotEmpty())
+                @foreach ($recipe->comments as $comment)
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <p>{{$comment->body}}</p>
+                            <small class="text-muted">By {{ $comment->user->username }} </small>
+                        </div>
+                    </div>
+                @endforeach
+            @else
+             <p> No comments yet! Be the first one to comment! Share your thoughts to the public!</p>
+            @endif
+        </div>
+        <!-- Comment Form for Logged-In Users -->
+        @if (auth()->check())
+            <div class="mt-4">
+                <h5>Leave a Comment</h5>
+                <form action="{{ route('comments.store', $recipe) }}" method="POST">
+                    @csrf
+                    <div class="mb-3">
+                        <textarea name="body" class="form-control" rows="4" placeholder="Your comment here..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Post Comment</button>
+                </form>
+            </div>
+        @else
+            <p>Please <a href="{{ route('login') }}">log in</a> to leave a comment.</p>
+        @endif
     </div>
 </div>
 
@@ -88,6 +118,7 @@
     </div>
   </div>
 </div>
+
 
 <!-- Include JavaScript to populate the modal dynamically -->
 <script>

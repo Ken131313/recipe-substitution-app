@@ -21,4 +21,14 @@ class Recipe extends Model
     {
         return $this->hasMany(Substitution::class);
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'slug'; // Ensure you have a 'slug' column in your database
+    }
 }
