@@ -78,7 +78,7 @@
                             <h1 class="display-3 text-white animated slideInLeft">Create Your Own<br>Chinese Meals</h1>
                             <p class="text-white animated slideInLeft mb-4 pb-2">We are WOK Guide! Here to help user to cook chinese meals and get rid of boring meals plan. If you have an idea on chinese meal also, feel free to upload!</p>
                             @auth
-                                <a href="{{ route('recipes.create')}}" class="btn btn-primary py-sm-3 px-sm-5 me-3 animated slideInLeft">
+                                <a href="{{ route('recipes.creation')}}" class="btn btn-primary py-sm-3 px-sm-5 me-3 animated slideInLeft">
                                     Upload recipe
                                 </a>
                             @endauth     

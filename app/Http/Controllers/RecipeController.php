@@ -26,7 +26,7 @@ class RecipeController extends Controller
         ]);
     }
 
-    public function create()
+    public function creation()
     {
         // Fetch distinct collections from the database (assuming collection is a column in recipes)
         $collections = \DB::table('recipes')
@@ -35,7 +35,7 @@ class RecipeController extends Controller
             ->distinct()
             ->pluck('collections');
         
-        return view('recipes.create', compact('collections'));
+        return view('recipes.creation', compact('collections'));
     }
 
 
