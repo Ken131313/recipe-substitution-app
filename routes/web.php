@@ -11,10 +11,6 @@ Route::get('/', [RecipeController::class, 'index'])->name('index');
 Route::get('/about', [PageController::class, 'about'])->name('about');
 Route::get('/recipes', [RecipeController::class, 'list'])->name('recipes.list');
 
-
-// Route to display a specific recipe
-Route::get('/recipes/{slug}', [RecipeController::class, 'show'])->name('recipes.show');
-
 // Authentication routes
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
@@ -29,3 +25,5 @@ Route::middleware('auth')->group(function () {
         ->name('comments.store');
 });
 
+// Route to display a specific recipe
+Route::get('/recipes/{slug}', [RecipeController::class, 'show'])->name('recipes.show');
