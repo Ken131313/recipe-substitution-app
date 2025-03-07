@@ -3,4 +3,17 @@ git commit -m "Updated feature X"
 git push origin main
 
 
+//pictures 403 forbidden
+rm public\storage -Recurse -Force
 
+php artisan storage:link
+
+3️⃣ Fix Folder Permissions (if need)
+Since you're on Windows, you need to grant Laravel access to storage and bootstrap/cache folders:
+
+powershell
+Copy
+Edit
+icacls storage /grant Everyone:F /T
+icacls bootstrap/cache /grant Everyone:F /T
+icacls public /grant Everyone:F /T

@@ -31,4 +31,27 @@ class Recipe extends Model
     {
         return 'slug'; // Ensure you have a 'slug' column in your database
     }
+    public function getImageUrlAttribute()
+    {
+        if (file_exists(public_path($this->image))) {
+            return asset($this->image);
+        }
+        
+        if (file_exists(storage_path('app/public/' . $this->image))) {
+            return asset('storage/' . $this->image);
+        }
+        
+        return asset('img/default-image.jpg');
+    }
+    protected $fullText = ['ingredients'];
+
+    public function scopeWithoutAllergies($query, $allergies)
+    {
+        foreach ($allergies as $allergy) {
+            $query->whereRaw(
+                "MATCH(ingredients) AGAINST(? IN BOOLEAN MODE)",
+                ["-{$allergy}"]
+            );
+        }
+    }
 }

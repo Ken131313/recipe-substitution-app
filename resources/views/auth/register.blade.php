@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+@extends('layouts.app')
+
+@section('content')
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -41,8 +44,28 @@
             <label for="password_confirmation">Confirm Password</label>
             <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
         </div>
+        
+        <!-- Allergies-->
+        <div class="form-group">
+            <label for="allergies">Allergies (Seperate with commas)</label>
+            <input type="text" class="form-control" id="allergies" name="allergies" placeholder="eg. , Nuts, Dairy, Gluten">
+        </div>
+
+        <!-- cooking skill level-->
+        <div class="form-group">
+            <label for="cooking_kill">Cooking SKill Level</label>
+            <select class="form-control" id="cooking_skill" name="cooking_skill">
+                <option value="">Select an option</option>
+                <option value="Beginner">Beginner</option>
+                <option value="Intermediate">Intermediate</option>
+                <option value="Expert">Expert</option>
+            </select>
+        </div>
+
         <button type="submit" class="btn btn-primary">Sign Up</button>
     </form>
 
     </body>
 </div>
+</html>
+@endsection

@@ -32,13 +32,13 @@
         @foreach ($recipes as $recipe)
         <div class="col-md-4 recipe-item" data-collection="{{ $recipe->collection }}">
             <div class="card mb-4 shadow-sm">
-                @if (file_exists(public_path($recipe->image)))
+            @if (file_exists(public_path($recipe->image)))
                 <img src="{{ asset($recipe->image) }}" alt="{{ $recipe->title }}" class="img-fluid rounded">
-                @elseif (file_exists(storage_path('app/public/' . $recipe->image)))
+            @elseif (file_exists(storage_path('app/public/' . $recipe->image)))
                 <img src="{{ asset('storage/' . $recipe->image) }}" alt="{{ $recipe->title }}" class="img-fluid rounded">
-                @else
+            @else
                 <img src="{{ asset('img/default-image.jpg') }}" alt="Image not found" class="img-fluid rounded">
-                @endif
+            @endif
                 
                 <div class="card-body">
                     <h5 class="card-title">

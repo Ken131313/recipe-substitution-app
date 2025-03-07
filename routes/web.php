@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\CommentController;
+use App\Models\Recipe;
 // Route to display the homepage 
 Route::get('/', [RecipeController::class, 'index'])->name('index');
 // About Us page
@@ -23,6 +24,35 @@ Route::middleware('auth')->group(function () {
     Route::post('/recipes', [RecipeController::class, 'store'])->name('recipes.store');
     Route::post('/recipes/{recipe}/comments', [CommentController::class, 'store'])
         ->name('comments.store');
+
+    //recommended recipes to diff user
+    $user = Auth::user(); 
+    Route::get('/recommended-recipes', function (Request $request) {
+        $user = $request->user();
+        $allergies = array_map('trim', explode(',', $user->allergies ?? ''));
+
+        $query = Recipe::query();
+
+        foreach ($allergies as $allergy){
+            if(!empty($allergy)){
+                $query->where('ingredients', 'not like', '%'.$allergy.'%');
+            }
+        }
+        $recipes = $query->inRandomOrder()
+            ->take(4)
+            ->get()
+            ->map(function($recipe) {
+                return [
+                    'id' => $recipe->id,
+                    'title' => $recipe->title,
+                    'description' => $recipe->description,
+                    'image' => $recipe->image_url,
+                    'slug' => $recipe->slug
+                ];
+            });
+            
+        return response()->json(['recipes' => $recipes]);
+    })->name('recommended.recipes');
 });
 
 // Route to display a specific recipe

@@ -141,6 +141,25 @@
         
 
 <br>
+        <script src="{{ asset('js/recommended.js') }}"></script>
+        <!-- recommended recipe by user prefernces-->
+        <div class="recommended-recipes">
+            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                <h1 class="mb-5">Recommended for You</h1>
+            </div>
+
+            <div class="recipes-container">
+                <div class="recipe-card">
+                    <img src="recipe-image.jpg" alt="Recipe Name">
+                    <h3>Recipe Name</h3>
+                    <p>Short description of the recipe.</p>
+                    <a href="/recipe/{recipes_id}" class="btn">View Recipe</a>
+                </div>
+
+            </div>
+        </div>
+        
+
         <!-- Menu Start -->
         <div class="container-xxl py-5">
             <div class="container">

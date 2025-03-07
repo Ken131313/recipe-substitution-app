@@ -24,6 +24,8 @@ class AuthController extends Controller
             'username' => 'required|string|unique:users',
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'allergies' => 'nullable|string|max:255',
+            'cooking_skill' => 'nullable|string|in:Beginner,Intermediate,Expert',
         ]);
 
         if ($validator->fails()) {
@@ -37,6 +39,8 @@ class AuthController extends Controller
             'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'allergies' => $request->allergies,
+            'cooking_skill' => $request->cooking_skill,
             'role' => 'user', // Default to 'user', you can change it as needed
         ]);
 
