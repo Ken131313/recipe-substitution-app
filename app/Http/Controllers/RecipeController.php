@@ -12,7 +12,23 @@ class RecipeController extends Controller
     public function index()
     {
         $recipes = DB::table('recipes')->select('id', 'title', 'slug')->get();
-        return view('index', compact('recipes'));
+        
+        $user = auth()->user();
+        $recommendedRecipes = collect();
+
+        if($user){
+            $allergies = explode(',', $user->allergies ?? '');
+            $allergies = array_map('trim', $allergies); // Trim whitespace
+
+            $query = Recipe::query();
+            foreach ($allergies as $allergy) {
+                if (!empty($allergy)) {
+                    $query->whereRaw("ingredients NOT LIKE ?", ['%"' . $allergy . '"%']);
+                }
+            }
+            $recommendedRecipes = $query->inRandomOrder()->get();
+        } 
+        return view('index', compact('recommendedRecipes'));
     }
 
     public function show($slug)
@@ -24,6 +40,21 @@ class RecipeController extends Controller
             'recipe' => $recipe,
             'substitutions' => $recipe->substitutions
         ]);
+    }
+
+    public function recommendedRecipe($id, Request $request)
+    {
+        $user = $request->user();
+        $allergies = array_map('trim', explode(',', $user->allergies ?? ''));
+
+        $recipe = Recipe::findOrFail($id);
+
+        foreach ($allergies as $allergy) {
+            if (!empty($allergy) && str_contains(strtolower($recipe->ingredients), strtolower($allergy))) {
+                abort(403, 'this recipes contains an ingredients you are allergic to');
+            }
+        }
+        return view('recommended-recipe-show', compact('recipe'));
     }
 
     public function creation()

@@ -8,6 +8,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
+    <meta name="csrf-token" content="{{ csrf_token() }}"> <!-- Personalised recipes needs -->
 
 
     <!-- Favicon -->
@@ -141,23 +142,43 @@
         
 
 <br>
-        <script src="{{ asset('js/recommended.js') }}"></script>
-        <!-- recommended recipe by user prefernces-->
-        <div class="recommended-recipes">
-            <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
-                <h1 class="mb-5">Recommended for You</h1>
-            </div>
-
-            <div class="recipes-container">
-                <div class="recipe-card">
-                    <img src="recipe-image.jpg" alt="Recipe Name">
-                    <h3>Recipe Name</h3>
-                    <p>Short description of the recipe.</p>
-                    <a href="/recipe/{recipes_id}" class="btn">View Recipe</a>
+        
+            <!-- Recommended Recipes Section -->
+            <div class="recommended-recipes">
+                <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+                    <h1 class="mb-5">Recommended for You</h1>
                 </div>
 
+                @if (auth()->check())
+                    <div class="row">
+                        @foreach ($recommendedRecipes as $recipe)
+                            <div class="col-md-4 recipe-item">
+                                <div class="card mb-4 shadow-sm">
+                                    @if (file_exists(public_path($recipe->image)))
+                                        <img src="{{ asset($recipe->image) }}" alt="{{ $recipe->title }}" class="img-fluid rounded">
+                                    @elseif (file_exists(storage_path('app/public/' . $recipe->image)))
+                                        <img src="{{ asset('storage/' . $recipe->image) }}" alt="{{ $recipe->title }}" class="img-fluid rounded">
+                                    @else
+                                        <img src="{{ asset('img/default-image.jpg') }}" alt="Image not found" class="img-fluid rounded">
+                                    @endif
+
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            <a href="{{ route('recommended.recipe.show', ['id' => $recipe->id]) }}" class="text-decoration-none">
+                                                {{ $recipe->title }}
+                                            </a>
+                                        </h5>
+                                        <a href="{{ route('recommended.recipe.show', ['id' => $recipe->id]) }}" class="btn btn-primary">View Recipe</a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <p>Please <a href="{{ route('login') }}">log in</a> to have personalized recipes just for you!</p>
+                @endif
             </div>
-        </div>
+
         
 
         <!-- Menu Start -->

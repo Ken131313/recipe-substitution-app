@@ -1,8 +1,11 @@
 document.addEventListener('DOMContentLoaded', function() {
-    fetch('/recommended-recipes', {  // Changed from '/api/recommended-recipes'
+    const csrfTokenMeta = document.querySelector('meta[name="csrf-token"]');
+    const csrfToken = csrfTokenMeta ? csrfTokenMeta.content : '';
+
+    fetch('/recommended-recipes', {  
         headers: {
             'Accept': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            'X-CSRF-TOKEN': csrfToken
         },
         credentials: 'include'
     })

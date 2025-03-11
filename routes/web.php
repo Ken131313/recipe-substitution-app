@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\PageController;
@@ -25,34 +26,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/recipes/{recipe}/comments', [CommentController::class, 'store'])
         ->name('comments.store');
 
-    //recommended recipes to diff user
-    $user = Auth::user(); 
-    Route::get('/recommended-recipes', function (Request $request) {
-        $user = $request->user();
-        $allergies = array_map('trim', explode(',', $user->allergies ?? ''));
-
-        $query = Recipe::query();
-
-        foreach ($allergies as $allergy){
-            if(!empty($allergy)){
-                $query->where('ingredients', 'not like', '%'.$allergy.'%');
-            }
-        }
-        $recipes = $query->inRandomOrder()
-            ->take(4)
-            ->get()
-            ->map(function($recipe) {
-                return [
-                    'id' => $recipe->id,
-                    'title' => $recipe->title,
-                    'description' => $recipe->description,
-                    'image' => $recipe->image_url,
-                    'slug' => $recipe->slug
-                ];
-            });
-            
-        return response()->json(['recipes' => $recipes]);
-    })->name('recommended.recipes');
+    Route::get('/recommended-recipe/{id}', [RecipeController::class, 'recommendedRecipe'])
+        ->name('recommended.recipe.show')
+        ->middleware('auth');
+    
 });
 
 // Route to display a specific recipe
