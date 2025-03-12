@@ -142,41 +142,44 @@
         
 
 <br>
-        
+            <script src="{{ asset('js/filterRecipes.js') }}"></script>
             <!-- Recommended Recipes Section -->
             <div class="recommended-recipes">
                 <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                     <h1 class="mb-5">Recommended for You</h1>
                 </div>
 
-                @if (auth()->check())
-                    <div class="row">
-                        @foreach ($recommendedRecipes as $recipe)
-                            <div class="col-md-4 recipe-item">
-                                <div class="card mb-4 shadow-sm">
-                                    @if (file_exists(public_path($recipe->image)))
-                                        <img src="{{ asset($recipe->image) }}" alt="{{ $recipe->title }}" class="img-fluid rounded">
-                                    @elseif (file_exists(storage_path('app/public/' . $recipe->image)))
-                                        <img src="{{ asset('storage/' . $recipe->image) }}" alt="{{ $recipe->title }}" class="img-fluid rounded">
-                                    @else
-                                        <img src="{{ asset('img/default-image.jpg') }}" alt="Image not found" class="img-fluid rounded">
-                                    @endif
-
-                                    <div class="card-body">
-                                        <h5 class="card-title">
-                                            <a href="{{ route('recommended.recipe.show', ['id' => $recipe->id]) }}" class="text-decoration-none">
-                                                {{ $recipe->title }}
-                                            </a>
-                                        </h5>
-                                        <a href="{{ route('recommended.recipe.show', ['id' => $recipe->id]) }}" class="btn btn-primary">View Recipe</a>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
+                <!-- Display User Allergies -->
+                @if(auth()->user())
+                    <div class="alert alert-info">
+                        <strong>We had taken out the food you are allergy with &#128540 :</strong> {{ implode(', ', explode(',', auth()->user()->allergies)) }}
                     </div>
-                @else
-                    <p>Please <a href="{{ route('login') }}">log in</a> to have personalized recipes just for you!</p>
                 @endif
+                <!-- Recipe List -->
+                <div class="row" id="recipeList">
+                    @foreach ($recommendedRecipes as $recipe)
+                    <div class="col-md-4 recipe-item" data-ingredients="{{ strtolower(implode(', ', is_array($recipe->ingredients) ? $recipe->ingredients : explode(',', $recipe->ingredients))) }}">
+                        <div class="card mb-4 shadow-sm">
+                            @if (file_exists(public_path($recipe->image)))
+                                <img src="{{ asset($recipe->image) }}" alt="{{ $recipe->title }}" class="img-fluid rounded">
+                            @elseif (file_exists(storage_path('app/public/' . $recipe->image)))
+                                <img src="{{ asset('storage/' . $recipe->image) }}" alt="{{ $recipe->title }}" class="img-fluid rounded">
+                            @else
+                                <img src="{{ asset('img/default-image.jpg') }}" alt="Image not found" class="img-fluid rounded">
+                            @endif
+
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="{{ route('recipes.show', ['slug' => $recipe->slug]) }}" class="text-decoration-none">
+                                        {{ $recipe->title }}
+                                    </a>
+                                </h5>
+                                <a href="{{ route('recipes.show', ['slug' => $recipe->slug]) }}" class="btn btn-primary">View Recipe</a>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
             </div>
 
         

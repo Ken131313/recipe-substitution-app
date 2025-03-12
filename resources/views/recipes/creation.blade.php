@@ -25,7 +25,7 @@
 
         <!-- Ingredients -->
         <div class="mb-3">
-            <label class="form-label">Ingredients (one per line)</label>
+            <label class="form-label">Ingredients (one per line)</label> <p>Notes: Amounts of ingredients should put in <strong>Cooking Steps</strong></p>
             <textarea class="form-control" name="ingredients" rows="5" 
                 placeholder="Enter each ingredient on a new line" required></textarea>
         </div>
@@ -40,6 +40,8 @@
         <!-- Substitutions -->
         <div class="mb-3">
             <h4>Ingredient Substitutions</h4>
+            <h5>Flavor similarity, dietary suitability; 3:well suits , 1:possible to replace</h5>
+            <p>Notes: Not neccessary to add substitutions. But it will benefit all users who needs alternative ingredients when they view your recipe!</p>
             <div id="substitutions-container">
                 <div class="substitution-group mb-3">
                     <div class="row g-3">

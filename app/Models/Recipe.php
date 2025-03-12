@@ -14,7 +14,7 @@ class Recipe extends Model
     protected $casts = [
         'ingredients' => 'array',
         'steps' => 'array',
-        'collections' => 'array' // Cast collections to an array
+        'collections' => 'array' // Cast  to an array
     ];
 
     public function substitutions()
@@ -45,13 +45,5 @@ class Recipe extends Model
     }
     protected $fullText = ['ingredients'];
 
-    public function scopeWithoutAllergies($query, $allergies)
-    {
-        foreach ($allergies as $allergy) {
-            $query->whereRaw(
-                "MATCH(ingredients) AGAINST(? IN BOOLEAN MODE)",
-                ["-{$allergy}"]
-            );
-        }
-    }
+    
 }

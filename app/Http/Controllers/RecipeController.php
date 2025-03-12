@@ -13,22 +13,37 @@ class RecipeController extends Controller
     {
         $recipes = DB::table('recipes')->select('id', 'title', 'slug')->get();
         
-        $user = auth()->user();
-        $recommendedRecipes = collect();
+        $userAllergies = auth()->user()->allergies;
+        if (is_string($userAllergies)) {
+            $userAllergies = explode(',', strtolower($userAllergies));
+        } elseif (!is_array($userAllergies)) {
+            $userAllergies = [];
+        }
+        
 
-        if($user){
-            $allergies = explode(',', $user->allergies ?? '');
-            $allergies = array_map('trim', $allergies); // Trim whitespace
+        $recommendedRecipes = Recipe::all()->filter(function ($recipe) use ($userAllergies){
+            $decodedIngredients = json_decode($recipe->ingredients, true);
 
-            $query = Recipe::query();
-            foreach ($allergies as $allergy) {
-                if (!empty($allergy)) {
-                    $query->whereRaw("ingredients NOT LIKE ?", ['%"' . $allergy . '"%']);
+                if (is_string($decodedIngredients)) {
+                    $decodedIngredients = json_decode($decodedIngredients, true);
                 }
-            }
-            $recommendedRecipes = $query->inRandomOrder()->get();
-        } 
-        return view('index', compact('recommendedRecipes'));
+
+                if(!is_array($decodedIngredients)){
+                    return true;
+                }
+
+                $ingredients = array_map('strtolower', $decodedIngredients);
+
+                foreach ($userAllergies as $allergen) {
+                    if (in_array(trim($allergen), $ingredients)) {
+                        return false;
+                    }
+                }
+                return true;
+            });
+
+            return view('index', compact('recommendedRecipes'));
+        
     }
 
     public function show($slug)
@@ -42,20 +57,7 @@ class RecipeController extends Controller
         ]);
     }
 
-    public function recommendedRecipe($id, Request $request)
-    {
-        $user = $request->user();
-        $allergies = array_map('trim', explode(',', $user->allergies ?? ''));
-
-        $recipe = Recipe::findOrFail($id);
-
-        foreach ($allergies as $allergy) {
-            if (!empty($allergy) && str_contains(strtolower($recipe->ingredients), strtolower($allergy))) {
-                abort(403, 'this recipes contains an ingredients you are allergic to');
-            }
-        }
-        return view('recommended-recipe-show', compact('recipe'));
-    }
+    
 
     public function creation()
     {
