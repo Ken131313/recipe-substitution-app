@@ -17,3 +17,16 @@ Edit
 icacls storage /grant Everyone:F /T
 icacls bootstrap/cache /grant Everyone:F /T
 icacls public /grant Everyone:F /T
+
+
+
+Recipe.php in Model:
+public function scopeWithoutAllergies($query, $allergies)
+    {
+        foreach ($allergies as $allergy) {
+            $query->whereRaw(
+                "MATCH(ingredients) AGAINST(? IN BOOLEAN MODE)",
+                ["-{$allergy}"]
+            );
+        }
+    }

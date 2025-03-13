@@ -1,9 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ config('app.name', 'WOK GUIDE') }}</title>
+    
+    <meta charset="utf-8">
+    <title>Restoran - Bootstrap Restaurant Template</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+    <meta name="csrf-token" content="{{ csrf_token() }}"> <!-- Personalised recipes needs -->
+
+
     <!-- Favicon -->
     <link rel="icon" href="{{ asset('img/favicon.ico') }}" type="image/x-icon">
 
@@ -28,16 +34,52 @@
 
     <!-- Template Stylesheet -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+
+
+
+    <div class="container-xxl bg-white p-0">
+        <!-- Spinner Start -->
+        <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+        <!-- Spinner End -->
+
+
+        <!-- Navbar & Hero Start -->
+        <div class="container-xxl position-relative p-0">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-0">
+                <a href="" class="navbar-brand p-0">
+                    <div style="display: flex; align-items: center;">
+                        <img src="{{ asset('img/wok.png') }}" alt="Logo" style="height: 50px; margin-right:15px; background-color: transparent;" >
+                        <a href="{{ route('index') }}" class="text-primary m-0">
+                            <h1 class="text-primary m-0">WOK GUIDE</h1>
+                        </a>
+                    </div>
+                    </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                    <span class="fa fa-bars"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <div class="navbar-nav ms-auto py-0 pe-4">
+                        <a href="{{ route('index') }}" class="nav-item nav-link active">Home</a>
+                        <a href="{{ route('about') }}" class="nav-item nav-link">About Us</a>
+                        <a href="{{ route('recipes.list') }}" class="nav-item nav-link">View all recipes</a>
+                        <a href="service.html" class="nav-item nav-link">Saved recipes</a>
+                    </div>
+                    <a href="{{ route('register') }}" class="btn btn-primary py-2 px-4">SIGN UP</a>
+                    <a href="{{ route('login') }}" class="btn btn-primary py-2 px-4">LOG IN</a>
+                </div>
+            </nav>
 </head>
 <body>
+    <br>
+    <br>
+    <br>
+    <br>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'WOK GUIDE') }}
-                </a>
-            </div>
-        </nav>
+        
 
         <main class="py-4">
             @yield('content')

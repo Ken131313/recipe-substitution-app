@@ -35,9 +35,9 @@
 
     <!-- Template Stylesheet -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-</head>
 
-<body>
+
+
     <div class="container-xxl bg-white p-0">
         <!-- Spinner Start -->
         <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
@@ -71,7 +71,8 @@
                     <a href="{{ route('login') }}" class="btn btn-primary py-2 px-4">LOG IN</a>
                 </div>
             </nav>
-
+</head>
+<body>
             <div class="container-xxl py-5 bg-dark hero-header mb-5">
                 <div class="container my-5 py-5">
                     <div class="row align-items-center g-5">
@@ -149,6 +150,7 @@
                     <h1 class="mb-5">Recommended for You</h1>
                 </div>
 
+                @auth
                 <!-- Display User Allergies -->
                 @if(auth()->user())
                     <div class="alert alert-info">
@@ -180,6 +182,12 @@
                     </div>
                     @endforeach
                 </div>
+                @endauth
+                @guest
+                    <a href="{{ route('login') }}" class="btn btn-secondary py-sm-3 px-sm-5 me-3 animated slideInLeft">
+                        Log in to view YOUR recipes
+                    </a>
+                @endguest  
             </div>
 
         
@@ -321,51 +329,51 @@
         <div class="container-xxl py-5 wow fadeInUp" data-wow-delay="0.1s">
             <div class="container">
                 <div class="text-center">
-                    <h5 class="section-title ff-secondary text-center text-primary fw-normal">Testimonial</h5>
-                    <h1 class="mb-5">Our Clients Say!!!</h1>
+                    <h5 class="section-title ff-secondary text-center text-primary fw-normal">Testimonials</h5>
+                    <h1 class="mb-5">What Our Clients Say</h1>
                 </div>
                 <div class="owl-carousel testimonial-carousel">
                     <div class="testimonial-item bg-transparent border rounded p-4">
                         <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
-                        <p>Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore diam</p>
+                        <p>The recipes are well-structured and easy to follow. I love how clear the instructions are!</p>
                         <div class="d-flex align-items-center">
                             <img class="img-fluid flex-shrink-0 rounded-circle" src="img/testimonial-1.jpg" style="width: 50px; height: 50px;">
                             <div class="ps-3">
-                                <h5 class="mb-1">Client Name</h5>
-                                <small>Profession</small>
+                                <h5 class="mb-1">Emily Johnson</h5>
+                                <small>Home Cook</small>
                             </div>
                         </div>
                     </div>
                     <div class="testimonial-item bg-transparent border rounded p-4">
                         <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
-                        <p>Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore diam</p>
+                        <p>This website provides great recipes that suit my dietary needs. Highly recommended for personalized cooking!</p>
                         <div class="d-flex align-items-center">
                             <img class="img-fluid flex-shrink-0 rounded-circle" src="img/testimonial-2.jpg" style="width: 50px; height: 50px;">
                             <div class="ps-3">
-                                <h5 class="mb-1">Client Name</h5>
-                                <small>Profession</small>
+                                <h5 class="mb-1">James Carter</h5>
+                                <small>Nutritionist</small>
                             </div>
                         </div>
                     </div>
                     <div class="testimonial-item bg-transparent border rounded p-4">
                         <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
-                        <p>Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore diam</p>
+                        <p>I appreciate the ingredient substitution feature—it helped me find alternatives for my allergies easily!</p>
                         <div class="d-flex align-items-center">
                             <img class="img-fluid flex-shrink-0 rounded-circle" src="img/testimonial-3.jpg" style="width: 50px; height: 50px;">
                             <div class="ps-3">
-                                <h5 class="mb-1">Client Name</h5>
-                                <small>Profession</small>
+                                <h5 class="mb-1">Sophia Lee</h5>
+                                <small>Food Enthusiast</small>
                             </div>
                         </div>
                     </div>
                     <div class="testimonial-item bg-transparent border rounded p-4">
                         <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
-                        <p>Dolor et eos labore, stet justo sed est sed. Diam sed sed dolor stet amet eirmod eos labore diam</p>
+                        <p>The variety of recipes and personalized suggestions make cooking so much more enjoyable for me!</p>
                         <div class="d-flex align-items-center">
                             <img class="img-fluid flex-shrink-0 rounded-circle" src="img/testimonial-4.jpg" style="width: 50px; height: 50px;">
                             <div class="ps-3">
-                                <h5 class="mb-1">Client Name</h5>
-                                <small>Profession</small>
+                                <h5 class="mb-1">Daniel Thompson</h5>
+                                <small>Chef</small>
                             </div>
                         </div>
                     </div>
@@ -373,6 +381,7 @@
             </div>
         </div>
         <!-- Testimonial End -->
+
         
 
         <!-- Footer Start -->
@@ -381,15 +390,15 @@
                 <div class="row g-5">
                     <div class="col-lg-3 col-md-6">
                         <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Company</h4>
-                        <a class="btn btn-link" href="">About Us</a>
-                        <a class="btn btn-link" href="">Contact Us</a>
+                        <a href="{{ route('about') }}" class="nav-link">About Us</a>
+                        
 
  
                     </div>
                     <div class="col-lg-3 col-md-6">
                         <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Contact</h4>
                         
-                        <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+                        <p class="mb-2"><i class="fa fa-envelope me-3"></i>ken@example.com</p>
                         
                     </div>
                     
@@ -400,7 +409,7 @@
                 <div class="copyright">
                     <div class="row">
                         <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                            &copy; <a class="border-bottom" href="#">Your Site Name</a>, All Right Reserved. 
+                            &copy; <a class="border-bottom" href="#">WOK GUIDE</a>, All Right Reserved. 
 							
 							<!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
 							Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a><br><br>

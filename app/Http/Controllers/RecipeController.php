@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Recipe;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class RecipeController extends Controller
@@ -13,7 +14,7 @@ class RecipeController extends Controller
     {
         $recipes = DB::table('recipes')->select('id', 'title', 'slug')->get();
         
-        $userAllergies = auth()->user()->allergies;
+        $userAllergies = Auth::check() ? (Auth::user()->allergies ?? []) : [];
         if (is_string($userAllergies)) {
             $userAllergies = explode(',', strtolower($userAllergies));
         } elseif (!is_array($userAllergies)) {
@@ -21,7 +22,7 @@ class RecipeController extends Controller
         }
         
 
-        $recommendedRecipes = Recipe::all()->filter(function ($recipe) use ($userAllergies){
+        $recommendedRecipes = Recipe::inRandomOrder()->get()->filter(function ($recipe) use ($userAllergies){
             $decodedIngredients = json_decode($recipe->ingredients, true);
 
                 if (is_string($decodedIngredients)) {
@@ -40,7 +41,7 @@ class RecipeController extends Controller
                     }
                 }
                 return true;
-            });
+            })->take(3);
 
             return view('index', compact('recommendedRecipes'));
         
