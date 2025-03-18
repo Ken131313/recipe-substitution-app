@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Recipe;
+use App\Models\SavedRecipe;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -156,5 +157,33 @@ class RecipeController extends Controller
         $recipes = $query->get();
         return view('recipes.list', compact('recipes'));
     }
+
+    public function savedRecipes()
+    {
+        $recipes = auth()->user()->savedRecipes;
+        return view('recipes.saved', compact('recipes'));
+    }
+
+    public function toggleSave($recipeId)
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Please log in to save recipes.');
+        }
+
+        $user = Auth::user();
+        $saved = SavedRecipe::where('user_id', $user->id)->where('recipe_id', $recipeId)->first();
+
+        if ($saved) {
+            $saved->delete();
+            return redirect()->back()->with('success', 'Recipe removed from favorites.');
+        } else {
+            SavedRecipe::create([
+                'user_id' => $user->id,
+                'recipe_id' => $recipeId,
+            ]);
+            return redirect()->back()->with('success', 'Recipe added to favorites.');
+        }
+    }
+
 
 }

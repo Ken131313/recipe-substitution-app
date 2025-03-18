@@ -46,14 +46,29 @@
                             {{ $recipe->title }}
                         </a>
                     </h5>
+                    <div class="recipe-card">
+                        <!-- Form for saving recipe -->
+                        <form action="{{ route('recipes.save', ['recipe' => $recipe->id]) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="save-recipe-btn">
+                                @if(auth()->user() && auth()->user()->savedRecipes->contains($recipe->id))
+                                    ❤️
+                                @else
+                                    🤍
+                                @endif
+                            </button>
+                        </form>
+                    </div>
                     <a href="{{ route('recipes.show', ['slug' => $recipe->slug]) }}" class="btn btn-primary">View Recipe</a>
                 </div>
+
+                
             </div>
         </div>
         @endforeach
     </div>
 </div>
-@endsection
+
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -78,4 +93,32 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = url;
     });
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll('.save-recipe-btn').forEach(button => {
+        button.addEventListener('click', function () {
+            const recipeId = this.dataset.recipeId;
+            const button = this;
+
+            fetch(`/recipes/${recipeId}/save`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Content-Type': 'application/json'
+                },
+                body:JSON.stringify({})
+            }).then(response => response.json())
+            .then(data => {
+                if (data.saved) {
+                    button.innerHTML = '❤️';
+                } else {
+                    button.innerHTML = '🤍';
+                }
+            })
+            .catch(error => console.error("Error:", error));
+        });
+    });
+});
+
 </script>
+@endsection

@@ -617,3 +617,18 @@
     text-decoration: none;
     border-radius: 4px;
 }
+.save-recipe-btn {
+    position: absolute;
+    top: 10px; /* Adjust top position */
+    right: 10px; /* Adjust right position */
+    background: none;
+    border: none;
+    font-size: 24px; /* Increase heart size */
+    cursor: pointer;
+    opacity: 1; /* Transparent by default */
+    transition: color 0.3s, opacity 0.3s; /* Smooth transition effect */
+}
+.save-recipe-btn:hover {
+    opacity: 1; /* Fully visible on hover */
+    color: red; /* Turns red */
+}

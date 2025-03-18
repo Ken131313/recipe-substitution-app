@@ -3,7 +3,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>Restoran - Bootstrap Restaurant Template</title>
+    <title>WOK Guide</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -66,10 +66,17 @@
                         <a href="{{ route('index') }}" class="nav-item nav-link active">Home</a>
                         <a href="{{ route('about') }}" class="nav-item nav-link">About Us</a>
                         <a href="{{ route('recipes.list') }}" class="nav-item nav-link">View all recipes</a>
-                        <a href="service.html" class="nav-item nav-link">Saved recipes</a>
+                        <a href="{{ route('recipes.saved') }}" class="nav-item nav-link">Saved recipes</a>
                     </div>
-                    <a href="{{ route('register') }}" class="btn btn-primary py-2 px-4">SIGN UP</a>
-                    <a href="{{ route('login') }}" class="btn btn-primary py-2 px-4">LOG IN</a>
+                    @if(Auth::check())
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-inline">
+                        @csrf
+                            <button type="submit" class="btn btn-danger py-2 px-4">LOG OUT</button>
+                        </form>
+                    @else
+                        <a href="{{ route('register') }}" class="btn btn-primary py-2 px-4">SIGN UP</a>
+                        <a href="{{ route('login') }}" class="btn btn-primary py-2 px-4">LOG IN</a>
+                    @endif
                 </div>
             </nav>
 </head>
@@ -77,7 +84,7 @@
     <br>
     <br>
     <br>
-    <br>
+  
     <div id="app">
         
 

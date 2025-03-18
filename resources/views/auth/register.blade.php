@@ -48,6 +48,7 @@
         <!-- Allergies-->
         <div class="form-group">
             <label for="allergies">Allergies (Seperate with commas)</label>
+            <p>Specify it types of allergen ingredients, such as: type 'Cashew' if you are allergy to nuts
             <input type="text" class="form-control" id="allergies" name="allergies" placeholder="eg. , Nuts, Dairy, Gluten">
         </div>
 

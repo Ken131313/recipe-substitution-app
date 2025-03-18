@@ -25,12 +25,21 @@ Route::middleware('auth')->group(function () {
     Route::post('/recipes', [RecipeController::class, 'store'])->name('recipes.store');
     Route::post('/recipes/{recipe}/comments', [CommentController::class, 'store'])
         ->name('comments.store');
+        
+    Route::post('/recipes/{recipe}/save', [RecipeController::class, 'toggleSave'])
+        ->name('recipes.save')
+        ->middleware('auth');
 
     Route::get('/recommended-recipe/{id}', [RecipeController::class, 'recommendedRecipe'])
         ->name('recommended.recipe.show')
         ->middleware('auth');
+
+    
     
 });
 
 // Route to display a specific recipe
 Route::get('/recipes/{slug}', [RecipeController::class, 'show'])->name('recipes.show');
+
+Route::get('/saved-recipes', [RecipeController::class, 'savedRecipes'])->middleware('auth')->name('recipes.saved');
+

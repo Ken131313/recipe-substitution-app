@@ -45,5 +45,10 @@ class Recipe extends Model
     }
     protected $fullText = ['ingredients'];
 
+    public function savedByUsers()
+    {
+        return $this->belongsToMany(User::class, 'saved_recipes')->withTimestamps();
+    }
+
     
 }
